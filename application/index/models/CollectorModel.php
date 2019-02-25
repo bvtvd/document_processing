@@ -36,4 +36,9 @@ class CollectorModel extends Model
     {
         return $value * 100;
     }
+
+    public function merchants()
+    {
+        return $this->hasMany('MerchantModel', 'collector_id', 'id');
+    }
 }

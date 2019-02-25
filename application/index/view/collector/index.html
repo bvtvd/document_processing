@@ -1,6 +1,6 @@
 {extend name="layout" /}
 
-{block name="title"}商家管理{/block}
+{block name="title"}收单员管理{/block}
 
 {block name="css"}
 {/block}
@@ -29,7 +29,22 @@
                 {volist name="collectors" id="collector"}
                 <tr>
                     <th scope="row">{$i}</th>
-                    <td>{$collector.name}</td>
+                    <td>
+                        <a role="button"
+
+                           data-toggle="popover"
+                           title="商家"
+                           data-content="
+                           {volist name="$collector.merchants" id="merchant"}
+                           <li>{$merchant.name}</li>
+                            {/volist}
+                            "
+                           data-html="true"
+                        >
+                        {$collector.name}
+                            <span class="badge badge-light">$</span>
+                        </a>
+                    </td>
                     <td>{$collector.commission}</td>
                     <td>
                         <a href="{:url('index/Collector/edit', ['id' => $collector.id])}" class="btn btn-outline-secondary btn-sm">编辑</a>

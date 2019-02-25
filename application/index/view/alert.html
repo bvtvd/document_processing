@@ -1,7 +1,7 @@
 
 {if condition="session('error')"}
 <!-- 错误提示框 -->
-<div class="alert alert-warning" role="alert">
+<div class="alert alert-warning hide-after-4s" role="alert">
     {:session('error')}
     {:session('error', null)}
 </div>
@@ -9,7 +9,7 @@
 
 {if condition="session('success')"}
 <!-- 成功提示框 -->
-<div class="alert alert-success" role="alert">
+<div class="alert alert-success hide-after-4s" role="alert">
     {:session('success')}
     {:session('success', null)}
 </div>

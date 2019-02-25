@@ -18,7 +18,7 @@ class Collector extends Base
 
     public function index()
     {
-        $collectors = CollectorModel::all();
+        $collectors = CollectorModel::with('merchants')->select();
         return view('index', [
             'collectors' => $collectors
         ]);
