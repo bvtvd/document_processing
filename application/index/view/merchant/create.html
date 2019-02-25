@@ -1,0 +1,47 @@
+{extend name="layout" /}
+
+{block name="title"}商家管理{/block}
+
+{block name="css"}
+{/block}
+
+{block name="content"}
+<div class="row">
+    <div class="col-12">
+        <div class="list-title">
+            <h4>新增商家</h4>
+            <a href="{:url('index/Merchant/index')}" class="btn btn-success btn-sm">返回</a>
+        </div>
+
+        {include file="alert" /}
+
+        <div>
+            <form style="padding-top: 1rem;" method="post" action="{:url('index/Merchant/store')}">
+                <div class="form-group row">
+                    <label for="inputEmail3" class="col-sm-2 col-form-label">商家名称</label>
+                    <div class="col-sm-10">
+                        <input type="text" class="form-control" id="inputEmail3" name="name" placeholder="请输入商家名称">
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <label for="inputPassword3" class="col-sm-2 col-form-label">收单员</label>
+                    <div class="col-sm-10">
+                        <select class="form-control" id="inputPassword3" name="collector_id">
+                            <option value="">-- 请选择收单员 --</option>
+                            {volist name="collectors" id="collector"}
+                            <option value="{$collector.id}">{$collector.name}</option>
+                            {/volist}
+                        </select>
+                    </div>
+                </div>
+                <div class="form-group row">
+                    <div class="col-sm-10">
+                        <button type="submit" class="btn btn-primary" style="width: 10rem">提交</button>
+                        <button type="reset" class="btn btn-light">重置</button>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{/block}

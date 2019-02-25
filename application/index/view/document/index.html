@@ -1,0 +1,26 @@
+{extend name="layout" /}
+
+{block name="title"}文档处理{/block}
+
+{block name="css"}
+<style>
+    .form {
+        position: relative;
+        top: 50%;
+    }
+</style>
+{/block}
+
+{block name="content"}
+<div class="row">
+    <div class="col-10 offset-1">
+        <form class="form">
+            <div class="form-group">
+                <label for="exampleFormControlFile1">Example file input</label>
+                <input type="file" class="form-control-file" id="exampleFormControlFile1">
+            </div>
+            <button type="submit" class="btn btn-success btn-lg btn-block">提交处理</button>
+        </form>
+    </div>
+</div>
+{/block}
