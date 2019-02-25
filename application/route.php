@@ -13,6 +13,7 @@ use think\Route;
 
 // 首页
 Route::get('/', 'index/Document/index');
+Route::post('/', 'index/Document/handle'); // 文档处理
 
 // 商家管理列表
 Route::get('/merchant/:id', 'index/Merchant/edit'); // 编辑页面
