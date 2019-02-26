@@ -11,6 +11,7 @@ namespace app\index\controller;
 
 
 use app\index\models\CollectorModel;
+use app\index\models\MerchantModel;
 use think\Validate;
 
 class Collector extends Base
@@ -96,7 +97,13 @@ class Collector extends Base
 
     public function destroy($id)
     {
-        CollectorModel::destroy($id);
+        $collector = CollectorModel::get($id);
+
+        if($collector->merchants){
+            return $this->back('该收单员还有绑定的商铺, 请解除绑定后再进行删除');
+        }
+
+        $collector->delete();
 
         return $this->redirect('index/Collector/index', [], 302, ['success' => '删除成功']);
     }
