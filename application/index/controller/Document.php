@@ -48,7 +48,7 @@ class Document extends Base
 
         // 先处理数据
         $data = [];
-
+        
         $merchantName = '';
         foreach($excelData as $item){
             $merchantName = trim($item['店铺名']);
@@ -76,6 +76,7 @@ class Document extends Base
             }
         }
 
+
         // 计算总计
         ob_clean();
         // 先清除残余文件
@@ -83,7 +84,8 @@ class Document extends Base
         $this->createDir($dir);
         $this->delDirAndFile($dir);
 
-
+        $totalCapital = 0;
+        $totalCommission = 0;
         foreach ($data as $collecotr => $item){
 
             $newExcel = new Spreadsheet();  //创建一个新的excel文档
@@ -131,7 +133,10 @@ class Document extends Base
                     ->setCellValue('F' . $k, $val['佣金'])
                     ->setCellValue('G' . $k, $val['总计']);
 
-                $total += bcadd($val['本金'], $val['佣金'], 2);
+//                $total += bcadd($val['本金'], $val['佣金'], 2);
+                $total = bcadd($total, bcadd($val['本金'], $val['佣金'], 2), 2);
+                $totalCapital = bcadd($totalCapital, $val['本金'], 2);
+                $totalCommission = bcadd($totalCommission, $val['佣金'], 2);
             }
 
             $objSheet->setCellValue('G2', $total);
@@ -145,6 +150,13 @@ class Document extends Base
             $objWriter->save($fileName);
         }
 
+        // 最后一张总计表
+        $newExcel = new Spreadsheet();  //创建一个新的excel文档
+        $objWriter = IOFactory::createWriter($newExcel, 'Xlsx');
+
+        $fileName = ROOT_PATH. 'public'.DS.'static'.DS.'file'. DS. $totalCommission . '_XX_' . $totalCapital .'.' .$format;
+        $objWriter->save($fileName);
+
         $this->downloadZipFile();
     }
 
@@ -157,12 +169,13 @@ class Document extends Base
 
         $zip = new ZipArchive();
 
-        $res = $zip->open($zipName, ZipArchive::CREATE);
+        $res = $zip->open($zipName, ZipArchive::OVERWRITE| ZipArchive::CREATE);
 
         if ($res === TRUE) {
             foreach ($files as $item) {
+                $filename = basename($item);
                 //这里直接用原文件的名字进行打包，也可以直接命名，需要注意如果文件名字一样会导致后面文件覆盖前面的文件，所以建议重新命名
-                $zip->addFile($item, basename($item));
+                $zip->addFile($item, $filename);
             }
         }
 
